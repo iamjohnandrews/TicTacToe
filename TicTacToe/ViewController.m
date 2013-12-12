@@ -18,6 +18,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.coordinateInputTextField.delegate = self;
     [self userPicksGamePiece];
 }
 
@@ -27,6 +28,11 @@
     [gamePieceDecision show];
 }
 
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    textField.text = nil;
+    return NO;
+}
 
 - (void)showingPlayersMove
 {
