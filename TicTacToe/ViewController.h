@@ -10,4 +10,26 @@
 
 @interface ViewController : UIViewController
 
+@property (weak, nonatomic) IBOutlet UITextField *coordinateInputTextField;
+
+@property (weak, nonatomic) IBOutlet UILabel *topLeftCornerLabel;
+
+@property (weak, nonatomic) IBOutlet UILabel *topMiddleLabel;
+
+@property (weak, nonatomic) IBOutlet UILabel *topRightCornerLabel;
+
+@property (weak, nonatomic) IBOutlet UILabel *middleLeftLabel;
+
+@property (weak, nonatomic) IBOutlet UILabel *middleMiddleLabel;
+
+@property (weak, nonatomic) IBOutlet UILabel *middleRightLabel;
+
+@property (weak, nonatomic) IBOutlet UILabel *bottomLeftCornerLabel;
+
+@property (weak, nonatomic) IBOutlet UILabel *bottomMiddleLabel;
+
+@property (weak, nonatomic) IBOutlet UILabel *bottomRightCornerLabel;
+
+@property (weak, nonatomic) IBOutlet UILabel *headerTitleLabel;
+
 @end

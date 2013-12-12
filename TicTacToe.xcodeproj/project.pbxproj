@@ -21,7 +21,6 @@
 		8E5D8C59185945B600B9E6B0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E5D8C3B185945B600B9E6B0 /* UIKit.framework */; };
 		8E5D8C61185945B600B9E6B0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8E5D8C5F185945B600B9E6B0 /* InfoPlist.strings */; };
 		8E5D8C63185945B600B9E6B0 /* TicTacToeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E5D8C62185945B600B9E6B0 /* TicTacToeTests.m */; };
-		8E5D8C701859473800B9E6B0 /* GamePiecesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E5D8C6F1859473800B9E6B0 /* GamePiecesView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,8 +53,6 @@
 		8E5D8C5E185945B600B9E6B0 /* TicTacToeTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TicTacToeTests-Info.plist"; sourceTree = "<group>"; };
 		8E5D8C60185945B600B9E6B0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8E5D8C62185945B600B9E6B0 /* TicTacToeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TicTacToeTests.m; sourceTree = "<group>"; };
-		8E5D8C6E1859473800B9E6B0 /* GamePiecesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePiecesView.h; sourceTree = "<group>"; };
-		8E5D8C6F1859473800B9E6B0 /* GamePiecesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePiecesView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,7 +112,7 @@
 		8E5D8C3D185945B600B9E6B0 /* TicTacToe */ = {
 			isa = PBXGroup;
 			children = (
-				8E5D8C6D185946D900B9E6B0 /* Views */,
+				8E5D8C49185945B600B9E6B0 /* Main.storyboard */,
 				8E5D8C6C185946CF00B9E6B0 /* Controllers */,
 				8E5D8C4F185945B600B9E6B0 /* Images.xcassets */,
 				8E5D8C3E185945B600B9E6B0 /* Supporting Files */,
@@ -162,17 +159,6 @@
 			);
 			name = Controllers;
 			path = ../../../../Controllers;
-			sourceTree = "<group>";
-		};
-		8E5D8C6D185946D900B9E6B0 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				8E5D8C6E1859473800B9E6B0 /* GamePiecesView.h */,
-				8E5D8C6F1859473800B9E6B0 /* GamePiecesView.m */,
-				8E5D8C49185945B600B9E6B0 /* Main.storyboard */,
-			);
-			name = Views;
-			path = ../../../../Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -273,7 +259,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8E5D8C4E185945B600B9E6B0 /* ViewController.m in Sources */,
-				8E5D8C701859473800B9E6B0 /* GamePiecesView.m in Sources */,
 				8E5D8C48185945B600B9E6B0 /* AppDelegate.m in Sources */,
 				8E5D8C44185945B600B9E6B0 /* main.m in Sources */,
 			);
@@ -312,7 +297,6 @@
 				8E5D8C4A185945B600B9E6B0 /* Base */,
 			);
 			name = Main.storyboard;
-			path = ../MobileMakers/PostMobileMakersInterviews/TicTacToe/TicTacToe;
 			sourceTree = "<group>";
 		};
 		8E5D8C5F185945B600B9E6B0 /* InfoPlist.strings */ = {
@@ -485,6 +469,7 @@
 				8E5D8C68185945B600B9E6B0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8E5D8C69185945B600B9E6B0 /* Build configuration list for PBXNativeTarget "TicTacToeTests" */ = {
 			isa = XCConfigurationList;
@@ -493,6 +478,7 @@
 				8E5D8C6B185945B600B9E6B0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

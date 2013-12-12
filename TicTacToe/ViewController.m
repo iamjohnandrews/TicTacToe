@@ -13,6 +13,7 @@
 @end
 
 @implementation ViewController
+@synthesize coordinateInputTextField, topLeftCornerLabel, topMiddleLabel, topRightCornerLabel, middleLeftLabel, middleMiddleLabel, middleRightLabel, bottomLeftCornerLabel, bottomMiddleLabel, bottomRightCornerLabel, headerTitleLabel;
 
 - (void)viewDidLoad
 {
