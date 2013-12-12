@@ -13,18 +13,64 @@
 @end
 
 @implementation ViewController
-@synthesize coordinateInputTextField, topLeftCornerLabel, topMiddleLabel, topRightCornerLabel, middleLeftLabel, middleMiddleLabel, middleRightLabel, bottomLeftCornerLabel, bottomMiddleLabel, bottomRightCornerLabel, headerTitleLabel;
+@synthesize coordinateInputTextField, topLeftCornerLabel, topMiddleLabel, topRightCornerLabel, middleLeftLabel, middleMiddleLabel, middleRightLabel, bottomLeftCornerLabel, bottomMiddleLabel, bottomRightCornerLabel, headerTitleLabel, theLetterO, theLetterX;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+    [self userPicksGamePiece];
 }
 
-- (void)didReceiveMemoryWarning
+- (void)userPicksGamePiece
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    UIAlertView *gamePieceDecision = [[UIAlertView alloc] initWithTitle:@"You Always Get First Move" message:@"You are X" delegate:self cancelButtonTitle:@"Let's Play" otherButtonTitles:nil];
+    [gamePieceDecision show];
+}
+
+
+- (void)showingPlayersMove
+{
+    
+    if ([coordinateInputTextField.text isEqualToString:@"0,0"] || [coordinateInputTextField.text isEqualToString:@"0, 0"]) {
+        topRightCornerLabel.font = [topRightCornerLabel.font fontWithSize:30.0f];
+        topRightCornerLabel.text = [NSString stringWithFormat:@"X"];
+    }
+    if ([coordinateInputTextField.text isEqualToString:@"1,0"] || [coordinateInputTextField.text isEqualToString:@"1, 0"]) {
+        topRightCornerLabel.font = [topRightCornerLabel.font fontWithSize:30.0f];
+        topRightCornerLabel.text = [NSString stringWithFormat:@"X"];
+    }
+    if ([coordinateInputTextField.text isEqualToString:@"2,0"] || [coordinateInputTextField.text isEqualToString:@"2, 0"]) {
+        topRightCornerLabel.font = [topRightCornerLabel.font fontWithSize:30.0f];
+        topRightCornerLabel.text = [NSString stringWithFormat:@"X"];
+    }
+    if ([coordinateInputTextField.text isEqualToString:@"0,1"] || [coordinateInputTextField.text isEqualToString:@"0, 1"]) {
+        topRightCornerLabel.font = [topRightCornerLabel.font fontWithSize:30.0f];
+        topRightCornerLabel.text = [NSString stringWithFormat:@"X"];
+    }
+    if ([coordinateInputTextField.text isEqualToString:@"1,1"] || [coordinateInputTextField.text isEqualToString:@"1, 1"]) {
+        topRightCornerLabel.font = [topRightCornerLabel.font fontWithSize:30.0f];
+        topRightCornerLabel.text = [NSString stringWithFormat:@"X"];
+    }
+    if ([coordinateInputTextField.text isEqualToString:@"2,1"] || [coordinateInputTextField.text isEqualToString:@"2, 1"]) {
+        topRightCornerLabel.font = [topRightCornerLabel.font fontWithSize:30.0f];
+        topRightCornerLabel.text = [NSString stringWithFormat:@"X"];
+    }
+    if ([coordinateInputTextField.text isEqualToString:@"0,2"] || [coordinateInputTextField.text isEqualToString:@"0, 2"]) {
+        topRightCornerLabel.font = [topRightCornerLabel.font fontWithSize:30.0f];
+        topRightCornerLabel.text = [NSString stringWithFormat:@"X"];
+    }
+    if ([coordinateInputTextField.text isEqualToString:@"1,2"] || [coordinateInputTextField.text isEqualToString:@"1, 2"]) {
+        topRightCornerLabel.font = [topRightCornerLabel.font fontWithSize:30.0f];
+        topRightCornerLabel.text = [NSString stringWithFormat:@"X"];
+    }
+    if ([coordinateInputTextField.text isEqualToString:@"2,2"] || [coordinateInputTextField.text isEqualToString:@"2, 2"]) {
+        topRightCornerLabel.font = [topRightCornerLabel.font fontWithSize:30.0f];
+        topRightCornerLabel.text = [NSString stringWithFormat:@"X"];
+    } else {
+        UIAlertView *playerMadeWrongEntryAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Please Enter Coordinates in a #,# format" delegate:self cancelButtonTitle:@"Try Again" otherButtonTitles:nil];
+        [playerMadeWrongEntryAlert show];
+    }
+    
 }
 
 @end

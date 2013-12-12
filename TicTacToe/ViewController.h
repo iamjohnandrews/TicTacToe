@@ -32,4 +32,8 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *headerTitleLabel;
 
+@property char theLetterX;
+
+@property char theLetterO;
+
 @end
