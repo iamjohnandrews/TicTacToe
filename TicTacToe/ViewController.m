@@ -28,54 +28,103 @@
     [gamePieceDecision show];
 }
 
-- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+- (BOOL)userEntryTextFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
+    [self showPlayersMove:textField.text];
     textField.text = nil;
     return NO;
 }
 
-- (void)showingPlayersMove
+- (void)showPlayersMove:(NSString *)usersMove
 {
-    
-    if ([coordinateInputTextField.text isEqualToString:@"0,0"] || [coordinateInputTextField.text isEqualToString:@"0, 0"]) {
-        topRightCornerLabel.font = [topRightCornerLabel.font fontWithSize:30.0f];
-        topRightCornerLabel.text = [NSString stringWithFormat:@"X"];
+    NSLog(@"User's move was %@", usersMove);
+    if ([usersMove isEqualToString:@"0,0"] || [usersMove isEqualToString:@"0, 0"]) {
+        topLeftCornerLabel.font = [topLeftCornerLabel.font fontWithSize:45.0f];
+        topLeftCornerLabel.textColor = [UIColor blackColor];
+        topLeftCornerLabel.text = [NSString stringWithFormat:@"X"];
+    } 
+    if ([usersMove isEqualToString:@"1,0"] || [usersMove isEqualToString:@"1, 0"]) {
+        topLeftCornerLabel.font = [topLeftCornerLabel.font fontWithSize:45.0f];
+        topLeftCornerLabel.textColor = [UIColor blackColor];
+        topLeftCornerLabel.text = [NSString stringWithFormat:@"X"];
     }
-    if ([coordinateInputTextField.text isEqualToString:@"1,0"] || [coordinateInputTextField.text isEqualToString:@"1, 0"]) {
-        topRightCornerLabel.font = [topRightCornerLabel.font fontWithSize:30.0f];
-        topRightCornerLabel.text = [NSString stringWithFormat:@"X"];
+    if ([usersMove isEqualToString:@"2,0"] || [usersMove isEqualToString:@"2, 0"]) {
+        topLeftCornerLabel.font = [topLeftCornerLabel.font fontWithSize:45.0f];
+        topLeftCornerLabel.textColor = [UIColor blackColor];
+        topLeftCornerLabel.text = [NSString stringWithFormat:@"X"];
     }
-    if ([coordinateInputTextField.text isEqualToString:@"2,0"] || [coordinateInputTextField.text isEqualToString:@"2, 0"]) {
-        topRightCornerLabel.font = [topRightCornerLabel.font fontWithSize:30.0f];
-        topRightCornerLabel.text = [NSString stringWithFormat:@"X"];
+    if ([usersMove isEqualToString:@"0,1"] || [usersMove isEqualToString:@"0, 1"]) {
+        topLeftCornerLabel.font = [topLeftCornerLabel.font fontWithSize:45.0f];
+        topLeftCornerLabel.textColor = [UIColor blackColor];
+        topLeftCornerLabel.text = [NSString stringWithFormat:@"X"];
     }
-    if ([coordinateInputTextField.text isEqualToString:@"0,1"] || [coordinateInputTextField.text isEqualToString:@"0, 1"]) {
-        topRightCornerLabel.font = [topRightCornerLabel.font fontWithSize:30.0f];
-        topRightCornerLabel.text = [NSString stringWithFormat:@"X"];
+    if ([usersMove isEqualToString:@"1,1"] || [usersMove isEqualToString:@"1, 1"]) {
+        topLeftCornerLabel.font = [topLeftCornerLabel.font fontWithSize:45.0f];
+        topLeftCornerLabel.textColor = [UIColor blackColor];
+        topLeftCornerLabel.text = [NSString stringWithFormat:@"X"];
     }
-    if ([coordinateInputTextField.text isEqualToString:@"1,1"] || [coordinateInputTextField.text isEqualToString:@"1, 1"]) {
-        topRightCornerLabel.font = [topRightCornerLabel.font fontWithSize:30.0f];
-        topRightCornerLabel.text = [NSString stringWithFormat:@"X"];
+    if ([usersMove isEqualToString:@"2,1"] || [usersMove isEqualToString:@"2, 1"]) {
+        topLeftCornerLabel.font = [topLeftCornerLabel.font fontWithSize:45.0f];
+        topLeftCornerLabel.textColor = [UIColor blackColor];
+        topLeftCornerLabel.text = [NSString stringWithFormat:@"X"];
     }
-    if ([coordinateInputTextField.text isEqualToString:@"2,1"] || [coordinateInputTextField.text isEqualToString:@"2, 1"]) {
-        topRightCornerLabel.font = [topRightCornerLabel.font fontWithSize:30.0f];
-        topRightCornerLabel.text = [NSString stringWithFormat:@"X"];
+    if ([usersMove isEqualToString:@"0,2"] || [usersMove isEqualToString:@"0, 2"]) {
+        topLeftCornerLabel.font = [topLeftCornerLabel.font fontWithSize:45.0f];
+        topLeftCornerLabel.textColor = [UIColor blackColor];
+        topLeftCornerLabel.text = [NSString stringWithFormat:@"X"];
     }
-    if ([coordinateInputTextField.text isEqualToString:@"0,2"] || [coordinateInputTextField.text isEqualToString:@"0, 2"]) {
-        topRightCornerLabel.font = [topRightCornerLabel.font fontWithSize:30.0f];
-        topRightCornerLabel.text = [NSString stringWithFormat:@"X"];
+    if ([usersMove isEqualToString:@"1,2"] || [usersMove isEqualToString:@"1, 2"]) {
+        topLeftCornerLabel.font = [topLeftCornerLabel.font fontWithSize:45.0f];
+        topLeftCornerLabel.textColor = [UIColor blackColor];
+        topLeftCornerLabel.text = [NSString stringWithFormat:@"X"];
     }
-    if ([coordinateInputTextField.text isEqualToString:@"1,2"] || [coordinateInputTextField.text isEqualToString:@"1, 2"]) {
-        topRightCornerLabel.font = [topRightCornerLabel.font fontWithSize:30.0f];
-        topRightCornerLabel.text = [NSString stringWithFormat:@"X"];
-    }
-    if ([coordinateInputTextField.text isEqualToString:@"2,2"] || [coordinateInputTextField.text isEqualToString:@"2, 2"]) {
-        topRightCornerLabel.font = [topRightCornerLabel.font fontWithSize:30.0f];
-        topRightCornerLabel.text = [NSString stringWithFormat:@"X"];
+    if ([usersMove isEqualToString:@"2,2"] || [usersMove isEqualToString:@"2, 2"]) {
+        topLeftCornerLabel.font = [topLeftCornerLabel.font fontWithSize:45.0f];
+        topLeftCornerLabel.textColor = [UIColor blackColor];
+        topLeftCornerLabel.text = [NSString stringWithFormat:@"X"];
     } else {
         UIAlertView *playerMadeWrongEntryAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Please Enter Coordinates in a #,# format" delegate:self cancelButtonTitle:@"Try Again" otherButtonTitles:nil];
         [playerMadeWrongEntryAlert show];
     }
+    //call method to check if person has tic tac toe
+    
+    //call method for computer's turn
+    
+}
+
+- (void)showComputersMove
+{
+    //use arc$random and the tables tag number
+    //check if the label text isEqualToX first
+}
+
+/*
+- (BOOL)checkIfTicTacToeWinner
+{
+    if (<#condition#>) {
+        UIAlertView *playerWonGame = [[UIAlertView alloc] initWithTitle:@"Winner" message:@"Player [X|O] won!" delegate:self cancelButtonTitle:@"Play Again" otherButtonTitles:nil];
+        [playerWonGame show];
+        return YES;
+    } 
+    if (    ){
+        UIAlertView *catsGame = [[UIAlertView alloc] initWithTitle:@"Cat's Game" message:@"Stalemate!" delegate:self cancelButtonTitle:@"Play Again" otherButtonTitles:nil];
+        [catsGame show];
+        return NO;
+    } else {
+        return NO;
+    }
+}*/
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0) {
+        [self restartGame];
+    } 
+    
+}
+
+- (void)restartGame
+{
     
 }
 
