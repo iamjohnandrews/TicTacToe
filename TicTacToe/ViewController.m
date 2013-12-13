@@ -9,6 +9,13 @@
 #import "ViewController.h"
 
 @interface ViewController ()
+{
+    NSArray *gameBoardCoordinatesArray;
+    NSMutableArray *unavailableGameBoardPositionsArray;    
+    NSDictionary *ticTacToeGameBoardPositionsDictionary;
+    
+    NSTimer *displayComputersMove;
+}
 
 @end
 
@@ -16,86 +23,124 @@
 @synthesize coordinateInputTextField, topLeftCornerLabel, topMiddleLabel, topRightCornerLabel, middleLeftLabel, middleMiddleLabel, middleRightLabel, bottomLeftCornerLabel, bottomMiddleLabel, bottomRightCornerLabel, headerTitleLabel, theLetterO, theLetterX;
 
 - (void)viewDidLoad
-{
+{    
     [super viewDidLoad];
     self.coordinateInputTextField.delegate = self;
-    [self userPicksGamePiece];
+    
+    [self beingGame];
+    
+    gameBoardCoordinatesArray = @[@"0,0", @"1,0", @"2,0", @"0,1", @"1,1", @"2,1", @"0,2", @"1,2", @"2,2"];
+    
+    ticTacToeGameBoardPositionsDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+                                             topRightCornerLabel, @"0",
+                                             topMiddleLabel, @"1", 
+                                             topRightCornerLabel, @"2", 
+                                             middleLeftLabel, @"3", 
+                                             middleMiddleLabel, @"4", 
+                                             middleRightLabel, @"5", 
+                                             bottomLeftCornerLabel, @"6", 
+                                             bottomMiddleLabel, @"7", 
+                                             bottomRightCornerLabel, @"8", nil];
 }
 
-- (void)userPicksGamePiece
+- (void)beingGame
 {
     UIAlertView *gamePieceDecision = [[UIAlertView alloc] initWithTitle:@"You Always Get First Move" message:@"You are X" delegate:self cancelButtonTitle:@"Let's Play" otherButtonTitles:nil];
     [gamePieceDecision show];
+
+    unavailableGameBoardPositionsArray = [NSMutableArray new];
 }
 
-- (BOOL)userEntryTextFieldShouldReturn:(UITextField *)textField {
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
     [textField resignFirstResponder];
-    [self showPlayersMove:textField.text];
+    [self showAnyPlayersMove:textField.text markerToBeUsed:@"X"];
     textField.text = nil;
     return NO;
 }
 
-- (void)showPlayersMove:(NSString *)usersMove
+
+- (void)showAnyPlayersMove:(NSString *)usersMove markerToBeUsed:(NSString *)marker
 {
     NSLog(@"User's move was %@", usersMove);
     if ([usersMove isEqualToString:@"0,0"] || [usersMove isEqualToString:@"0, 0"]) {
         topLeftCornerLabel.font = [topLeftCornerLabel.font fontWithSize:45.0f];
         topLeftCornerLabel.textColor = [UIColor blackColor];
-        topLeftCornerLabel.text = [NSString stringWithFormat:@"X"];
-    } 
-    if ([usersMove isEqualToString:@"1,0"] || [usersMove isEqualToString:@"1, 0"]) {
-        topLeftCornerLabel.font = [topLeftCornerLabel.font fontWithSize:45.0f];
-        topLeftCornerLabel.textColor = [UIColor blackColor];
-        topLeftCornerLabel.text = [NSString stringWithFormat:@"X"];
-    }
-    if ([usersMove isEqualToString:@"2,0"] || [usersMove isEqualToString:@"2, 0"]) {
-        topLeftCornerLabel.font = [topLeftCornerLabel.font fontWithSize:45.0f];
-        topLeftCornerLabel.textColor = [UIColor blackColor];
-        topLeftCornerLabel.text = [NSString stringWithFormat:@"X"];
-    }
-    if ([usersMove isEqualToString:@"0,1"] || [usersMove isEqualToString:@"0, 1"]) {
-        topLeftCornerLabel.font = [topLeftCornerLabel.font fontWithSize:45.0f];
-        topLeftCornerLabel.textColor = [UIColor blackColor];
-        topLeftCornerLabel.text = [NSString stringWithFormat:@"X"];
-    }
-    if ([usersMove isEqualToString:@"1,1"] || [usersMove isEqualToString:@"1, 1"]) {
-        topLeftCornerLabel.font = [topLeftCornerLabel.font fontWithSize:45.0f];
-        topLeftCornerLabel.textColor = [UIColor blackColor];
-        topLeftCornerLabel.text = [NSString stringWithFormat:@"X"];
-    }
-    if ([usersMove isEqualToString:@"2,1"] || [usersMove isEqualToString:@"2, 1"]) {
-        topLeftCornerLabel.font = [topLeftCornerLabel.font fontWithSize:45.0f];
-        topLeftCornerLabel.textColor = [UIColor blackColor];
-        topLeftCornerLabel.text = [NSString stringWithFormat:@"X"];
-    }
-    if ([usersMove isEqualToString:@"0,2"] || [usersMove isEqualToString:@"0, 2"]) {
-        topLeftCornerLabel.font = [topLeftCornerLabel.font fontWithSize:45.0f];
-        topLeftCornerLabel.textColor = [UIColor blackColor];
-        topLeftCornerLabel.text = [NSString stringWithFormat:@"X"];
-    }
-    if ([usersMove isEqualToString:@"1,2"] || [usersMove isEqualToString:@"1, 2"]) {
-        topLeftCornerLabel.font = [topLeftCornerLabel.font fontWithSize:45.0f];
-        topLeftCornerLabel.textColor = [UIColor blackColor];
-        topLeftCornerLabel.text = [NSString stringWithFormat:@"X"];
-    }
-    if ([usersMove isEqualToString:@"2,2"] || [usersMove isEqualToString:@"2, 2"]) {
-        topLeftCornerLabel.font = [topLeftCornerLabel.font fontWithSize:45.0f];
-        topLeftCornerLabel.textColor = [UIColor blackColor];
-        topLeftCornerLabel.text = [NSString stringWithFormat:@"X"];
+        topLeftCornerLabel.text = [NSString stringWithFormat:@"%@", marker];
+        [unavailableGameBoardPositionsArray addObject:[NSString stringWithFormat:@"%ld",(long)topLeftCornerLabel.tag]];
+        displayComputersMove = [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(figureOutComputersMove) userInfo:nil repeats:NO];
+        //[self figureOutComputersMove];
+        
+    } else if ([usersMove isEqualToString:@"1,0"] || [usersMove isEqualToString:@"1, 0"]) {
+        topMiddleLabel.font = [topMiddleLabel.font fontWithSize:45.0f];
+        topMiddleLabel.textColor = [UIColor blackColor];
+        topMiddleLabel.text = [NSString stringWithFormat:@"%@", marker];
+        [unavailableGameBoardPositionsArray addObject:[NSString stringWithFormat:@"%ld",(long)topMiddleLabel.tag]];
+        
+    } else if ([usersMove isEqualToString:@"2,0"] || [usersMove isEqualToString:@"2, 0"]) {
+        topRightCornerLabel.font = [topRightCornerLabel.font fontWithSize:45.0f];
+        topRightCornerLabel.textColor = [UIColor blackColor];
+        topRightCornerLabel.text = [NSString stringWithFormat:@"%@", marker];
+        [unavailableGameBoardPositionsArray addObject:[NSString stringWithFormat:@"%ld",(long)topRightCornerLabel.tag]];
+        
+    } else if ([usersMove isEqualToString:@"0,1"] || [usersMove isEqualToString:@"0, 1"]) {
+        middleLeftLabel.font = [middleLeftLabel.font fontWithSize:45.0f];
+        middleLeftLabel.textColor = [UIColor blackColor];
+        middleLeftLabel.text = [NSString stringWithFormat:@"%@", marker];
+        [unavailableGameBoardPositionsArray addObject:[NSString stringWithFormat:@"%ld",(long)middleLeftLabel.tag]];
+        
+    } else if ([usersMove isEqualToString:@"1,1"] || [usersMove isEqualToString:@"1, 1"]) {
+        middleMiddleLabel.font = [middleMiddleLabel.font fontWithSize:45.0f];
+        middleMiddleLabel.textColor = [UIColor blackColor];
+        middleMiddleLabel.text = [NSString stringWithFormat:@"%@", marker];
+        [unavailableGameBoardPositionsArray addObject:[NSString stringWithFormat:@"%ld",(long)middleMiddleLabel.tag]];
+        
+    } else if ([usersMove isEqualToString:@"2,1"] || [usersMove isEqualToString:@"2, 1"]) {
+        middleRightLabel.font = [middleRightLabel.font fontWithSize:45.0f];
+        middleRightLabel.textColor = [UIColor blackColor];
+        middleRightLabel.text = [NSString stringWithFormat:@"%@", marker];
+        [unavailableGameBoardPositionsArray addObject:[NSString stringWithFormat:@"%ld",(long)middleRightLabel.tag]];
+        
+    } else if ([usersMove isEqualToString:@"0,2"] || [usersMove isEqualToString:@"0, 2"]) {
+        bottomLeftCornerLabel.font = [bottomLeftCornerLabel.font fontWithSize:45.0f];
+        bottomLeftCornerLabel.textColor = [UIColor blackColor];
+        bottomLeftCornerLabel.text = [NSString stringWithFormat:@"%@", marker];
+        [unavailableGameBoardPositionsArray addObject:[NSString stringWithFormat:@"%ld",(long)bottomLeftCornerLabel.tag]];
+        
+    } else if ([usersMove isEqualToString:@"1,2"] || [usersMove isEqualToString:@"1, 2"]) {
+        bottomMiddleLabel.font = [bottomMiddleLabel.font fontWithSize:45.0f];
+        bottomMiddleLabel.textColor = [UIColor blackColor];
+        bottomMiddleLabel.text = [NSString stringWithFormat:@"%@", marker];
+        [unavailableGameBoardPositionsArray addObject:[NSString stringWithFormat:@"%ld",(long)bottomMiddleLabel.tag]];
+        
+    } else if ([usersMove isEqualToString:@"2,2"] || [usersMove isEqualToString:@"2, 2"]) {
+        bottomRightCornerLabel.font = [bottomRightCornerLabel.font fontWithSize:45.0f];
+        bottomRightCornerLabel.textColor = [UIColor blackColor];
+        bottomRightCornerLabel.text = [NSString stringWithFormat:@"%@", marker];
+        [unavailableGameBoardPositionsArray addObject:[NSString stringWithFormat:@"%ld",(long)bottomRightCornerLabel.tag]];
+        
     } else {
-        UIAlertView *playerMadeWrongEntryAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Please Enter Coordinates in a #,# format" delegate:self cancelButtonTitle:@"Try Again" otherButtonTitles:nil];
+        UIAlertView *playerMadeWrongEntryAlert = [[UIAlertView alloc] initWithTitle:@"Incorrect Entry" message:@"Please Enter Coordinates in a #,# format" delegate:self cancelButtonTitle:@"Try Again" otherButtonTitles:nil];
         [playerMadeWrongEntryAlert show];
     }
+    NSLog(@"taken game board positions are %@", unavailableGameBoardPositionsArray);
+    
     //call method to check if person has tic tac toe
     
-    //call method for computer's turn
+    //call method for computer's turn.(use NSTimer so there is a little delay)
     
 }
 
-- (void)showComputersMove
-{
-    //use arc$random and the tables tag number
-    //check if the label text isEqualToX first
+- (void)figureOutComputersMove
+{   
+    //computer has to figure out if there is already an X in tic tac to box
+    int randomComputerMove = arc4random() % 8;
+    int cycleThroughTagNumbers = 0;
+    while (randomComputerMove != [[unavailableGameBoardPositionsArray objectAtIndex:cycleThroughTagNumbers] integerValue]) {
+        NSLog(@"Computers Move is %@", [gameBoardCoordinatesArray objectAtIndex:randomComputerMove]);
+        [self showAnyPlayersMove:[gameBoardCoordinatesArray objectAtIndex:randomComputerMove] markerToBeUsed:@"O"];
+        cycleThroughTagNumbers++;
+    }
 }
 
 /*
