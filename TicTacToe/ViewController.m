@@ -11,14 +11,14 @@
 @interface ViewController ()
 {
     NSArray *gameBoardCoordinatesArray;
-    NSMutableArray *unavailableGameBoardPositionsArray;        
-    NSTimer *displayComputersMove;
+    NSMutableArray *unavailableGameBoardPositionsArray;   
+    BOOL ticTacToeGameComplete;
 }
 
 @end
 
 @implementation ViewController
-@synthesize coordinateInputTextField, topLeftCornerLabel, topMiddleLabel, topRightCornerLabel, middleLeftLabel, middleMiddleLabel, middleRightLabel, bottomLeftCornerLabel, bottomMiddleLabel, bottomRightCornerLabel, headerTitleLabel, theLetterO, theLetterX;
+@synthesize coordinateInputTextField, topLeftCornerLabel, topMiddleLabel, topRightCornerLabel, middleLeftLabel, middleMiddleLabel, middleRightLabel, bottomLeftCornerLabel, bottomMiddleLabel, bottomRightCornerLabel, headerTitleLabel, displayComputersMove;
 
 - (void)viewDidLoad
 {    
@@ -32,7 +32,7 @@
 {
     UIAlertView *gamePieceDecision = [[UIAlertView alloc] initWithTitle:@"You Always Get First Move" message:@"You are X" delegate:nil cancelButtonTitle:@"Let's Play" otherButtonTitles:nil];
     [gamePieceDecision show];
-
+    ticTacToeGameComplete = NO;
     unavailableGameBoardPositionsArray = [NSMutableArray new];
 }
 
@@ -41,12 +41,17 @@
     NSLog(@"Player's move is %@", textField.text);
     [textField resignFirstResponder];
     [self showAnyPlayersMove:textField.text markerToBeUsed:@"X"];
-    [self eightWaysToWinTicTacToe];
+    //[self eightWaysToWinTicTacToe];
     textField.text = nil;
-    displayComputersMove = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(figureOutComputersMove) userInfo:nil repeats:NO];
+    if (!(ticTacToeGameComplete) && (unavailableGameBoardPositionsArray.count <= 8)) {
+        displayComputersMove = [NSTimer scheduledTimerWithTimeInterval:0.8 target:self selector:@selector(figureOutComputersMove) userInfo:nil repeats:NO];
+    }
+    //displayComputersMove = [NSTimer scheduledTimerWithTimeInterval:0.8 target:self selector:@selector(figureOutComputersMove) userInfo:nil repeats:NO];
     return NO;
 }
-#warning make it so that user can not input an occupied cell
+#warning 1) make it so that user can not input an occupied cell
+#warning 2) make it so when player X wins, the alert message only appears once. Gott call methos eightWaysToWin jus once
+
 
 - (void)showAnyPlayersMove:(NSString *)usersMove markerToBeUsed:(NSString *)marker
 {
@@ -55,66 +60,84 @@
         topLeftCornerLabel.textColor = [UIColor blackColor];
         topLeftCornerLabel.text = [NSString stringWithFormat:@"%@", marker];
         [unavailableGameBoardPositionsArray addObject:[NSString stringWithFormat:@"%ld",(long)topLeftCornerLabel.tag]];
+        [self eightWaysToWinTicTacToe];
+        [self catsGame];
         
     } else if ([usersMove isEqualToString:@"1,0"] || [usersMove isEqualToString:@"1, 0"]) {
         topMiddleLabel.font = [topMiddleLabel.font fontWithSize:45.0f];
         topMiddleLabel.textColor = [UIColor blackColor];
         topMiddleLabel.text = [NSString stringWithFormat:@"%@", marker];
         [unavailableGameBoardPositionsArray addObject:[NSString stringWithFormat:@"%ld",(long)topMiddleLabel.tag]];
+        [self eightWaysToWinTicTacToe];
+        [self catsGame];
         
     } else if ([usersMove isEqualToString:@"2,0"] || [usersMove isEqualToString:@"2, 0"]) {
         topRightCornerLabel.font = [topRightCornerLabel.font fontWithSize:45.0f];
         topRightCornerLabel.textColor = [UIColor blackColor];
         topRightCornerLabel.text = [NSString stringWithFormat:@"%@", marker];
         [unavailableGameBoardPositionsArray addObject:[NSString stringWithFormat:@"%ld",(long)topRightCornerLabel.tag]];
+        [self eightWaysToWinTicTacToe];
+        [self catsGame];
         
     } else if ([usersMove isEqualToString:@"0,1"] || [usersMove isEqualToString:@"0, 1"]) {
         [unavailableGameBoardPositionsArray addObject:[NSString stringWithFormat:@"%d",middleLeftLabel.tag]];
         middleLeftLabel.font = [middleLeftLabel.font fontWithSize:45.0f];
         middleLeftLabel.textColor = [UIColor blackColor];
         middleLeftLabel.text = [NSString stringWithFormat:@"%@", marker];
+        [self eightWaysToWinTicTacToe];
+        [self catsGame];
         
     } else if ([usersMove isEqualToString:@"1,1"] || [usersMove isEqualToString:@"1, 1"]) {
         middleMiddleLabel.font = [middleMiddleLabel.font fontWithSize:45.0f];
         middleMiddleLabel.textColor = [UIColor blackColor];
         middleMiddleLabel.text = [NSString stringWithFormat:@"%@", marker];
         [unavailableGameBoardPositionsArray addObject:[NSString stringWithFormat:@"%ld",(long)middleMiddleLabel.tag]];
+        [self eightWaysToWinTicTacToe];
+        [self catsGame];
         
     } else if ([usersMove isEqualToString:@"2,1"] || [usersMove isEqualToString:@"2, 1"]) {
         middleRightLabel.font = [middleRightLabel.font fontWithSize:45.0f];
         middleRightLabel.textColor = [UIColor blackColor];
         middleRightLabel.text = [NSString stringWithFormat:@"%@", marker];
         [unavailableGameBoardPositionsArray addObject:[NSString stringWithFormat:@"%ld",(long)middleRightLabel.tag]];
+        [self eightWaysToWinTicTacToe];
+        [self catsGame];
         
     } else if ([usersMove isEqualToString:@"0,2"] || [usersMove isEqualToString:@"0, 2"]) {
         bottomLeftCornerLabel.font = [bottomLeftCornerLabel.font fontWithSize:45.0f];
         bottomLeftCornerLabel.textColor = [UIColor blackColor];
         bottomLeftCornerLabel.text = [NSString stringWithFormat:@"%@", marker];
         [unavailableGameBoardPositionsArray addObject:[NSString stringWithFormat:@"%ld",(long)bottomLeftCornerLabel.tag]];
+        [self eightWaysToWinTicTacToe];
+        [self catsGame];
         
     } else if ([usersMove isEqualToString:@"1,2"] || [usersMove isEqualToString:@"1, 2"]) {
         bottomMiddleLabel.font = [bottomMiddleLabel.font fontWithSize:45.0f];
         bottomMiddleLabel.textColor = [UIColor blackColor];
         bottomMiddleLabel.text = [NSString stringWithFormat:@"%@", marker];
         [unavailableGameBoardPositionsArray addObject:[NSString stringWithFormat:@"%ld",(long)bottomMiddleLabel.tag]];
+        [self eightWaysToWinTicTacToe];
+        [self catsGame];
         
     } else if ([usersMove isEqualToString:@"2,2"] || [usersMove isEqualToString:@"2, 2"]) {
         bottomRightCornerLabel.font = [bottomRightCornerLabel.font fontWithSize:45.0f];
         bottomRightCornerLabel.textColor = [UIColor blackColor];
         bottomRightCornerLabel.text = [NSString stringWithFormat:@"%@", marker];
         [unavailableGameBoardPositionsArray addObject:[NSString stringWithFormat:@"%ld",(long)bottomRightCornerLabel.tag]];
+        [self eightWaysToWinTicTacToe];
+        [self catsGame];
         
     } else {
-        UIAlertView *playerMadeWrongEntryAlert = [[UIAlertView alloc] initWithTitle:@"Incorrect Entry" message:@"Please Enter Coordinates in a #,# format" delegate:nil cancelButtonTitle:@"Try Again" otherButtonTitles:nil];
+        UIAlertView *playerMadeWrongEntryAlert = [[UIAlertView alloc] initWithTitle:@"Incorrect Entry" message:@"Please enter coordinates in an empty box with a #,# format" delegate:nil cancelButtonTitle:@"Try Again" otherButtonTitles:nil];
         [playerMadeWrongEntryAlert show];
     }
-    //[self catsGame];
     NSLog(@"taken game board positions are %@", unavailableGameBoardPositionsArray);
+    //[self catsGame];
 }
 
 
 - (void)figureOutComputersMove
-{   
+{   NSLog(@"figureOutComputersMove got fired");
     BOOL moveWorks = NO;
     while ((moveWorks = YES)) {
         int randomComputerMove = arc4random() % 8;
@@ -122,6 +145,7 @@
             NSLog(@"Random selection (%d) is NOT in the unavailableGameBoardPositionsArray", randomComputerMove);
             NSLog(@"Computers Move is %@", [gameBoardCoordinatesArray objectAtIndex:randomComputerMove]);
             [self showAnyPlayersMove:[gameBoardCoordinatesArray objectAtIndex:randomComputerMove] markerToBeUsed:@"O"];
+            //[self eightWaysToWinTicTacToe];
             moveWorks = NO;
             break;
         } else {
@@ -132,47 +156,87 @@
     
 }
 
-- (void)eightWaysToWinTicTacToe
-{
+- (void)eightWaysToWinTicTacToe 
+{   
     if ([topLeftCornerLabel.text isEqualToString:topMiddleLabel.text] && [topMiddleLabel.text isEqualToString: topRightCornerLabel.text]) {
-        UIAlertView *playerWonGame = [[UIAlertView alloc] initWithTitle:@"Winner" message:@"Player [X|O] won!" delegate:self cancelButtonTitle:@"Play Again" otherButtonTitles:nil];
-        [playerWonGame show];
-        [displayComputersMove invalidate];
+        ticTacToeGameComplete = YES;
+        if ([topLeftCornerLabel.text isEqualToString:@"X"]) {
+            UIAlertView *playerWonGame = [[UIAlertView alloc] initWithTitle:@"Winner" message:@"Player X won!" delegate:self cancelButtonTitle:@"Play Again" otherButtonTitles:nil];
+            [playerWonGame show];
+        } else {
+            UIAlertView *playerWonGame = [[UIAlertView alloc] initWithTitle:@"Winner" message:@"Player O won!" delegate:self cancelButtonTitle:@"Play Again" otherButtonTitles:nil];
+            [playerWonGame show];
+        }
         
     } else if ([middleLeftLabel.text isEqualToString:middleMiddleLabel.text] && [middleMiddleLabel.text isEqualToString: middleRightLabel.text]) {
-        UIAlertView *playerWonGame = [[UIAlertView alloc] initWithTitle:@"Winner" message:@"Player [X|O] won!" delegate:self cancelButtonTitle:@"Play Again" otherButtonTitles:nil];
-        [playerWonGame show];
-        [displayComputersMove invalidate];
+        ticTacToeGameComplete = YES;
+        if ([middleLeftLabel.text isEqualToString:@"X"]) {
+            UIAlertView *playerWonGame = [[UIAlertView alloc] initWithTitle:@"Winner" message:@"Player X won!" delegate:self cancelButtonTitle:@"Play Again" otherButtonTitles:nil];
+            [playerWonGame show];
+        } else {
+            UIAlertView *playerWonGame = [[UIAlertView alloc] initWithTitle:@"Winner" message:@"Player O won!" delegate:self cancelButtonTitle:@"Play Again" otherButtonTitles:nil];
+            [playerWonGame show];
+        }
         
     } else if ([bottomLeftCornerLabel.text isEqualToString:bottomMiddleLabel.text] && [bottomMiddleLabel.text isEqualToString: bottomRightCornerLabel.text]) {
-        UIAlertView *playerWonGame = [[UIAlertView alloc] initWithTitle:@"Winner" message:@"Player [X|O] won!" delegate:self cancelButtonTitle:@"Play Again" otherButtonTitles:nil];
-        [playerWonGame show];
-        [displayComputersMove invalidate];
+        ticTacToeGameComplete = YES;
+        if ([bottomLeftCornerLabel.text isEqualToString:@"X"]) {
+            UIAlertView *playerWonGame = [[UIAlertView alloc] initWithTitle:@"Winner" message:@"Player X won!" delegate:self cancelButtonTitle:@"Play Again" otherButtonTitles:nil];
+            [playerWonGame show];
+        } else {
+            UIAlertView *playerWonGame = [[UIAlertView alloc] initWithTitle:@"Winner" message:@"Player O won!" delegate:self cancelButtonTitle:@"Play Again" otherButtonTitles:nil];
+            [playerWonGame show];
+        }
         
     } else if ([topLeftCornerLabel.text isEqualToString:middleLeftLabel.text] && [middleLeftLabel.text isEqualToString: bottomLeftCornerLabel.text]) {
-        UIAlertView *playerWonGame = [[UIAlertView alloc] initWithTitle:@"Winner" message:@"Player [X|O] won!" delegate:self cancelButtonTitle:@"Play Again" otherButtonTitles:nil];
-        [playerWonGame show];
-        [displayComputersMove invalidate];
+        ticTacToeGameComplete = YES;
+        if ([topLeftCornerLabel.text isEqualToString:@"X"]) {
+            UIAlertView *playerWonGame = [[UIAlertView alloc] initWithTitle:@"Winner" message:@"Player X won!" delegate:self cancelButtonTitle:@"Play Again" otherButtonTitles:nil];
+            [playerWonGame show];
+        } else {
+            UIAlertView *playerWonGame = [[UIAlertView alloc] initWithTitle:@"Winner" message:@"Player O won!" delegate:self cancelButtonTitle:@"Play Again" otherButtonTitles:nil];
+            [playerWonGame show];
+        }
         
     } else if ([topMiddleLabel.text isEqualToString:middleMiddleLabel.text] && [middleMiddleLabel.text isEqualToString: bottomMiddleLabel.text]) {
-        UIAlertView *playerWonGame = [[UIAlertView alloc] initWithTitle:@"Winner" message:@"Player [X|O] won!" delegate:self cancelButtonTitle:@"Play Again" otherButtonTitles:nil];
-        [playerWonGame show];
-        [displayComputersMove invalidate];
+        ticTacToeGameComplete = YES;
+        if ([topMiddleLabel.text isEqualToString:@"X"]) {
+            UIAlertView *playerWonGame = [[UIAlertView alloc] initWithTitle:@"Winner" message:@"Player X won!" delegate:self cancelButtonTitle:@"Play Again" otherButtonTitles:nil];
+            [playerWonGame show];
+        } else {
+            UIAlertView *playerWonGame = [[UIAlertView alloc] initWithTitle:@"Winner" message:@"Player O won!" delegate:self cancelButtonTitle:@"Play Again" otherButtonTitles:nil];
+            [playerWonGame show];
+        }
         
     } else if ([topRightCornerLabel.text isEqualToString:middleRightLabel.text] && [middleRightLabel.text isEqualToString: bottomRightCornerLabel.text]) {
-        UIAlertView *playerWonGame = [[UIAlertView alloc] initWithTitle:@"Winner" message:@"Player [X|O] won!" delegate:self cancelButtonTitle:@"Play Again" otherButtonTitles:nil];
-        [playerWonGame show];
-        [displayComputersMove invalidate];
+        ticTacToeGameComplete = YES;
+        if ([topRightCornerLabel.text isEqualToString:@"X"]) {
+            UIAlertView *playerWonGame = [[UIAlertView alloc] initWithTitle:@"Winner" message:@"Player X won!" delegate:self cancelButtonTitle:@"Play Again" otherButtonTitles:nil];
+            [playerWonGame show];
+        } else {
+            UIAlertView *playerWonGame = [[UIAlertView alloc] initWithTitle:@"Winner" message:@"Player O won!" delegate:self cancelButtonTitle:@"Play Again" otherButtonTitles:nil];
+            [playerWonGame show];
+        }
         
     } else if ([topLeftCornerLabel.text isEqualToString:middleMiddleLabel.text] && [middleMiddleLabel.text isEqualToString: bottomRightCornerLabel.text]) {
-        UIAlertView *playerWonGame = [[UIAlertView alloc] initWithTitle:@"Winner" message:@"Player [X|O] won!" delegate:self cancelButtonTitle:@"Play Again" otherButtonTitles:nil];
-        [playerWonGame show];
-        [displayComputersMove invalidate];
+        ticTacToeGameComplete = YES;
+        if ([topLeftCornerLabel.text isEqualToString:@"X"]) {
+            UIAlertView *playerWonGame = [[UIAlertView alloc] initWithTitle:@"Winner" message:@"Player X won!" delegate:self cancelButtonTitle:@"Play Again" otherButtonTitles:nil];
+            [playerWonGame show];
+        } else {
+            UIAlertView *playerWonGame = [[UIAlertView alloc] initWithTitle:@"Winner" message:@"Player O won!" delegate:self cancelButtonTitle:@"Play Again" otherButtonTitles:nil];
+            [playerWonGame show];
+        }
         
     } else if ([topRightCornerLabel.text isEqualToString:middleMiddleLabel.text] && [middleMiddleLabel.text isEqualToString: bottomLeftCornerLabel.text]) {
-        UIAlertView *playerWonGame = [[UIAlertView alloc] initWithTitle:@"Winner" message:@"Player [X|O] won!" delegate:self cancelButtonTitle:@"Play Again" otherButtonTitles:nil];
-        [playerWonGame show];
-        [displayComputersMove invalidate];
+        ticTacToeGameComplete = YES;
+        if ([topRightCornerLabel.text isEqualToString:@"X"]) {
+            UIAlertView *playerWonGame = [[UIAlertView alloc] initWithTitle:@"Winner" message:@"Player X won!" delegate:self cancelButtonTitle:@"Play Again" otherButtonTitles:nil];
+            [playerWonGame show];
+        } else {
+            UIAlertView *playerWonGame = [[UIAlertView alloc] initWithTitle:@"Winner" message:@"Player O won!" delegate:self cancelButtonTitle:@"Play Again" otherButtonTitles:nil];
+            [playerWonGame show];
+        }
     } 
 }
 
@@ -185,7 +249,16 @@
 
 - (void)catsGame
 {
-    if (unavailableGameBoardPositionsArray.count - 1 == 8) {
+    if (([topLeftCornerLabel.text isEqualToString:@"X"] || [topLeftCornerLabel.text isEqualToString:@"O"]) &&
+        ([topMiddleLabel.text isEqualToString:@"X"] || [topMiddleLabel.text isEqualToString:@"O"]) &&
+        ([topRightCornerLabel.text isEqualToString:@"X"] || [topRightCornerLabel.text isEqualToString:@"O"]) &&
+        ([middleLeftLabel.text isEqualToString:@"X"] || [middleLeftLabel.text isEqualToString:@"O"]) &&
+        ([middleMiddleLabel.text isEqualToString:@"X"] || [middleMiddleLabel.text isEqualToString:@"O"]) &&
+        ([middleRightLabel.text isEqualToString:@"X"] || [middleRightLabel.text isEqualToString:@"O"]) &&
+        ([bottomLeftCornerLabel.text isEqualToString:@"X"] || [bottomLeftCornerLabel.text isEqualToString:@"O"]) &&
+        ([bottomMiddleLabel.text isEqualToString:@"X"] || [bottomMiddleLabel.text isEqualToString:@"O"]) &&
+        ([bottomRightCornerLabel.text isEqualToString:@"X"] || [bottomRightCornerLabel.text isEqualToString:@"O"]) && !(ticTacToeGameComplete)) {
+        ticTacToeGameComplete = YES;
         UIAlertView *catsGame = [[UIAlertView alloc] initWithTitle:@"Cat's Game" message:@"Stalemate!" delegate:self cancelButtonTitle:@"Play Again" otherButtonTitles:nil];
         [catsGame show];
     }
@@ -193,17 +266,17 @@
 
 - (void)resetGameBoard
 {
-    topRightCornerLabel.text = [gameBoardCoordinatesArray objectAtIndex:0];
-    topRightCornerLabel.font = [topRightCornerLabel.font fontWithSize:17.0f];
-    topRightCornerLabel.textColor = [UIColor lightGrayColor];
+    topLeftCornerLabel.text = [gameBoardCoordinatesArray objectAtIndex:0];
+    topLeftCornerLabel.font = [topLeftCornerLabel.font fontWithSize:17.0f];
+    topLeftCornerLabel.textColor = [UIColor lightGrayColor];
     
     topMiddleLabel.text = [gameBoardCoordinatesArray objectAtIndex:1];
     topMiddleLabel.font = [topMiddleLabel.font fontWithSize:17.0f];
     topMiddleLabel.textColor = [UIColor lightGrayColor];
     
-    topLeftCornerLabel.text = [gameBoardCoordinatesArray objectAtIndex:2];
-    topLeftCornerLabel.font = [topLeftCornerLabel.font fontWithSize:17.0f];
-    topLeftCornerLabel.textColor = [UIColor lightGrayColor];
+    topRightCornerLabel.text = [gameBoardCoordinatesArray objectAtIndex:2];
+    topRightCornerLabel.font = [topRightCornerLabel.font fontWithSize:17.0f];
+    topRightCornerLabel.textColor = [UIColor lightGrayColor];
     
     middleLeftLabel.text = [gameBoardCoordinatesArray objectAtIndex:3];
     middleLeftLabel.font = [middleLeftLabel.font fontWithSize:17.0f];

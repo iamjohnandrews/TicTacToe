@@ -10,6 +10,8 @@
 
 @interface ViewController : UIViewController <UITextFieldDelegate>
 
+@property (strong, nonatomic) NSTimer *displayComputersMove;
+
 @property (weak, nonatomic) IBOutlet UITextField *coordinateInputTextField;
 
 @property (weak, nonatomic) IBOutlet UILabel *topLeftCornerLabel;
@@ -32,8 +34,5 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *headerTitleLabel;
 
-@property char theLetterX;
-
-@property char theLetterO;
 
 @end
