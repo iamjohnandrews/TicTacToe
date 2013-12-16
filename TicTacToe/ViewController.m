@@ -38,19 +38,15 @@
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    NSLog(@"Player's move is %@", textField.text);
+    //NSLog(@"Player's move is %@", textField.text);
     [textField resignFirstResponder];
     [self showAnyPlayersMove:textField.text markerToBeUsed:@"X"];
-    //[self eightWaysToWinTicTacToe];
     textField.text = nil;
     if (!(ticTacToeGameComplete) && (unavailableGameBoardPositionsArray.count <= 8)) {
         displayComputersMove = [NSTimer scheduledTimerWithTimeInterval:0.8 target:self selector:@selector(figureOutComputersMove) userInfo:nil repeats:NO];
     }
-    //displayComputersMove = [NSTimer scheduledTimerWithTimeInterval:0.8 target:self selector:@selector(figureOutComputersMove) userInfo:nil repeats:NO];
     return NO;
 }
-#warning 1) make it so that user can not input an occupied cell
-#warning 2) make it so when player X wins, the alert message only appears once. Gott call methos eightWaysToWin jus once
 
 
 - (void)showAnyPlayersMove:(NSString *)usersMove markerToBeUsed:(NSString *)marker
@@ -131,25 +127,23 @@
         UIAlertView *playerMadeWrongEntryAlert = [[UIAlertView alloc] initWithTitle:@"Incorrect Entry" message:@"Please enter coordinates in an empty box with a #,# format" delegate:nil cancelButtonTitle:@"Try Again" otherButtonTitles:nil];
         [playerMadeWrongEntryAlert show];
     }
-    NSLog(@"taken game board positions are %@", unavailableGameBoardPositionsArray);
-    //[self catsGame];
+    //NSLog(@"taken game board positions are %@", unavailableGameBoardPositionsArray);
 }
 
 
 - (void)figureOutComputersMove
-{   NSLog(@"figureOutComputersMove got fired");
+{   
     BOOL moveWorks = NO;
     while ((moveWorks = YES)) {
         int randomComputerMove = arc4random() % 8;
         if (![unavailableGameBoardPositionsArray containsObject:[NSString stringWithFormat:@"%d", randomComputerMove]]) { 
-            NSLog(@"Random selection (%d) is NOT in the unavailableGameBoardPositionsArray", randomComputerMove);
-            NSLog(@"Computers Move is %@", [gameBoardCoordinatesArray objectAtIndex:randomComputerMove]);
+            //NSLog(@"Random selection (%d) is NOT in the unavailableGameBoardPositionsArray", randomComputerMove);
+            //NSLog(@"Computers Move is %@", [gameBoardCoordinatesArray objectAtIndex:randomComputerMove]);
             [self showAnyPlayersMove:[gameBoardCoordinatesArray objectAtIndex:randomComputerMove] markerToBeUsed:@"O"];
-            //[self eightWaysToWinTicTacToe];
             moveWorks = NO;
             break;
         } else {
-            NSLog(@"random selection (%d) is in the array", randomComputerMove);
+            //NSLog(@"random selection (%d) is in the array", randomComputerMove);
             randomComputerMove++;
         }
     }
